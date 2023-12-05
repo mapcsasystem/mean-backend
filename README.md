@@ -22,13 +22,21 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Requerimientos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+1. Tener Instalado NodeJS, NestJS, Docker Docker Compose, Mongo Compass
 
-## Installation
+## Correr archivo docker-compose.yml con docker compose
 
 ```bash
+# En la raiz del proyecto
+$ docker compose up -d
+```
+
+## Instalar dependencias
+
+```bash
+# En la raiz del proyecto
 $ npm install
 ```
 
@@ -58,16 +66,9 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Para detener el archivo docker-compose.yml con docker compose
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+```bash
+# En la raiz del proyecto
+$ docker compose down
+```
