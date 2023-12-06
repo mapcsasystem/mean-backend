@@ -67,8 +67,14 @@ export class AuthService {
     };
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async findUserById(id: string) {
+    const user = await this.userModel.findById(id);
+    const { password, ...rest } = user.toJSON();
+    return rest;
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.userModel.find();
   }
 
   findOne(id: number) {
