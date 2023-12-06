@@ -1,3 +1,4 @@
+//#region Imports
 import {
   BadRequestException,
   Injectable,
@@ -10,12 +11,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcryptjs from 'bcryptjs';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { LoginDto } from './dto/login.dto';
 import { User } from './entities/user.entity';
 
 import { JwtPayload } from './interfaces/jwt-payload';
+import { LoginResponse } from './interfaces/login-response';
+import { CreateUserDto, LoginDto, RegisterUserDto, UpdateUserDto } from './dto';
+//#endregion
 
 @Injectable()
 export class AuthService {
@@ -42,7 +43,7 @@ export class AuthService {
     }
   }
 
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<LoginResponse> {
     const { email, password } = loginDto;
     const user = await this.userModel.findOne({ email });
     if (!user) {
@@ -55,6 +56,14 @@ export class AuthService {
     return {
       user: rest,
       token: this.getJwt({ id: user.id }),
+    };
+  }
+
+  async register(registerDto: RegisterUserDto): Promise<LoginResponse> {
+    const user = await this.create(registerDto);
+    return {
+      user: user,
+      token: this.getJwt({ id: user._id }),
     };
   }
 
