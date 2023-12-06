@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
@@ -14,9 +15,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { User } from './entities/user.entity';
 
+import { JwtPayload } from './interfaces/jwt-payload';
+
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private jwtService: JwtService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
@@ -37,7 +43,6 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    console.log({ loginDto });
     const { email, password } = loginDto;
     const user = await this.userModel.findOne({ email });
     if (!user) {
@@ -49,7 +54,7 @@ export class AuthService {
     const { password: _, ...rest } = user.toJSON();
     return {
       user: rest,
-      token: 'ABC',
+      token: this.getJwt({ id: user.id }),
     };
   }
 
@@ -67,5 +72,10 @@ export class AuthService {
 
   remove(id: number) {
     return `This action removes a #${id} auth`;
+  }
+
+  getJwt(payload: JwtPayload) {
+    const token = this.jwtService.sign(payload);
+    return token;
   }
 }
