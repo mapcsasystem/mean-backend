@@ -73,6 +73,6 @@ $ npm run test:cov
 $ docker compose down
 ```
 
-## Para poder usar el backend
+## Para poder usar el frontend
 
-#### [App Angular Frontend](https://github.com/mapcsasystem/angular-17-auth-app.git)
+#### [Angular Frontend](https://github.com/mapcsasystem/angular-17-auth-app.git)
